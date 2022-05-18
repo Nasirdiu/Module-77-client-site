@@ -7,13 +7,14 @@ const CheckoutForm = ({ appointment }) => {
   const elements = useElements();
   const [cardError, setCardError] = useState("");
   const [success, setSuccess] = useState("");
+  const [processing, setProcessing] = useState(false);
   const [transactionId, setTransaction] = useState("");
   const [clientSecret, setClientSecret] = useState("");
 
-  const { price, patient, patientName } = appointment;
+  const { _id, price, patient, patientName } = appointment;
 
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://warm-springs-07917.herokuapp.com/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -44,6 +45,7 @@ const CheckoutForm = ({ appointment }) => {
     });
     setCardError(error?.message || "");
     setSuccess("");
+    setProcessing(true);
     //confirm card payment
     const { paymentIntent, error: intent } = await stripe.confirmCardPayment(
       clientSecret,
@@ -59,10 +61,30 @@ const CheckoutForm = ({ appointment }) => {
     );
     if (intent) {
       setCardError(error?.message);
+      setProcessing(false);
     } else {
       setCardError("");
       setTransaction(paymentIntent.id);
       setSuccess("Congratulations!your payment is complete");
+
+      //updated
+      const payment = {
+        appointment: _id,
+        transactionId: paymentIntent.id,
+      };
+      fetch(`https://warm-springs-07917.herokuapp.com/booking/${_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(payment),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setProcessing(false);
+          console.log(data);
+        });
     }
   };
   return (
@@ -96,7 +118,10 @@ const CheckoutForm = ({ appointment }) => {
       {success && (
         <div className="text-green-500">
           <p>{success}</p>
-          <p>your transaction Id : <span className="bg-orange-500 font-bold">{transactionId}</span></p>
+          <p>
+            your transaction Id :{" "}
+            <span className="bg-orange-500 font-bold">{transactionId}</span>
+          </p>
         </div>
       )}
     </>
