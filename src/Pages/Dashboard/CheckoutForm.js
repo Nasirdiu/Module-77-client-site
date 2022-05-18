@@ -14,14 +14,17 @@ const CheckoutForm = ({ appointment }) => {
   const { _id, price, patient, patientName } = appointment;
 
   useEffect(() => {
-    fetch("https://warm-springs-07917.herokuapp.com/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: JSON.stringify({ price }),
-    })
+    fetch(
+      "https://enigmatic-hamlet-55773.herokuapp.com/create-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({ price }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data?.clientSecret) {
@@ -72,7 +75,7 @@ const CheckoutForm = ({ appointment }) => {
         appointment: _id,
         transactionId: paymentIntent.id,
       };
-      fetch(`https://warm-springs-07917.herokuapp.com/booking/${_id}`, {
+      fetch(`https://enigmatic-hamlet-55773.herokuapp.com/booking/${_id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -109,7 +112,7 @@ const CheckoutForm = ({ appointment }) => {
         <button
           className="btn btn-success btn-sm mt-4"
           type="submit"
-          disabled={!stripe || !clientSecret}
+          disabled={!stripe || !clientSecret || success}
         >
           Pay
         </button>

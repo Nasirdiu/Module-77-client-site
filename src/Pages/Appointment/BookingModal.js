@@ -7,7 +7,7 @@ import auth from "../../firebase.init";
 
 const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
   const [user, loading, error] = useAuthState(auth);
-  const { _id, name, slots,price } = treatment;
+  const { _id, name, slots, price } = treatment;
   const formateDate = format(date, "PP");
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
       patientName: user.displayName,
       phone: event.target.phone.value,
     };
-    fetch("https://warm-springs-07917.herokuapp.com/booking", {
+    fetch("https://enigmatic-hamlet-55773.herokuapp.com/booking", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

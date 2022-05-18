@@ -11,7 +11,7 @@ const MyAppointment = () => {
   useEffect(() => {
     if (user) {
       fetch(
-        `https://warm-springs-07917.herokuapp.com/booking?patient=${user.email}`,
+        `https://enigmatic-hamlet-55773.herokuapp.com/booking?patient=${user.email}`,
         {
           method: "GET",
           headers: {
@@ -60,16 +60,22 @@ const MyAppointment = () => {
                 <td>
                   {a.price && !a.paid && (
                     <Link to={`/dashboard/payment/${a._id}`}>
-                      <button className="btn btn-xs btn-secondary">Payment</button>
+                      <button className="btn btn-xs btn-secondary">
+                        Payment
+                      </button>
                     </Link>
                   )}
                   {a.price && a.paid && (
-                  
-                     <div>
-                       <p> <span className="text-success">paid</span></p>
-                       <p>Transaction  Id:<span className="text-success">{a.treatmentId}</span></p>
-                     </div>
-                    
+                    <div>
+                      <p>
+                        {" "}
+                        <span className="text-success">paid</span>
+                      </p>
+                      <p>
+                        Transaction Id:
+                        <span className="text-success">{a.treatmentId}</span>
+                      </p>
+                    </div>
                   )}
                 </td>
               </tr>

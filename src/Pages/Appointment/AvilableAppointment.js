@@ -15,14 +15,14 @@ const AvilableAppointment = ({ date }) => {
     refetch,
   } = useQuery(["available", formateDate], () =>
     fetch(
-      `https://warm-springs-07917.herokuapp.com/available?date=${formateDate}`
+      `https://enigmatic-hamlet-55773.herokuapp.com/available?date=${formateDate}`
     ).then((res) => res.json())
   );
   if (isLoading) {
     return <Loading></Loading>;
   }
   // useEffect(() => {
-  //   fetch(`https://warm-springs-07917.herokuapp.com/available?date=${formateDate}`)
+  //   fetch(`https://enigmatic-hamlet-55773.herokuapp.com/available?date=${formateDate}`)
   //     .then((res) => res.json())
   //     .then((data) => setServices(data));
   // }, [formateDate]);

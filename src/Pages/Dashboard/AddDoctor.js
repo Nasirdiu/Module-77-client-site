@@ -12,7 +12,7 @@ const AddDoctor = () => {
     reset,
   } = useForm();
   const { data: services, isLoading } = useQuery("services", () =>
-    fetch(`https://warm-springs-07917.herokuapp.com/service`).then((res) =>
+    fetch(`https://enigmatic-hamlet-55773.herokuapp.com/service`).then((res) =>
       res.json()
     )
   );
@@ -45,7 +45,7 @@ const AddDoctor = () => {
             img: img,
           };
           //send to your database:
-          fetch("https://warm-springs-07917.herokuapp.com/doctor", {
+          fetch("https://enigmatic-hamlet-55773.herokuapp.com/doctor", {
             method: "POST",
             headers: {
               "content-type": "application/json",
